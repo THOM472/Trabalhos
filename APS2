@@ -1,0 +1,111 @@
+library(ggplot2)
+
+#Filtragem da base
+aps1 = aps
+aps1 = aps1 |>
+  dplyr::select(`MIG (2022)`,`POP (2022)`, `GDPCAP (2022)`, `GDPG (2022)`, `UNEMP (2022)`, `POPGROWTH (2022)`, `EXPEC (2021)`, `ELECT (2021)`, `MORT (2021)`, `MIG.PER (2015)`, `REF (2022)`, `URB (2022)`)
+apsna = na.omit(aps1)
+sss = aps |>
+  dplyr::select(`SAFE.SANIT (2022)`, `MIG.PER (2015)`)
+ss = na.omit(sss)
+aid = aps |>
+  dplyr::select(`HIV (2021)`)
+aids = na.omit(aid)
+
+#Criação das médias
+
+m1 = round(mean(apsna$`MIG (2022)`),4)
+m2 = round(mean(apsna$`POP (2022)`),4)
+m3 = round(mean(apsna$`GDPCAP (2022)`),4)
+m4 = round(mean(apsna$`GDPG (2022)` ),4)
+m5 = round(mean(apsna$`UNEMP (2022)` ),4)
+m6 = round(mean(apsna$`POPGROWTH (2022)` ),4)
+m7 = round(mean(apsna$`EXPEC (2021)` ),4)
+m8= round(mean(apsna$`ELECT (2021)` ),4)
+m9= round(mean(apsna$`MORT (2021)` ),4)
+m11 = round(mean(apsna$`MIG.PER (2015)` ),4)
+m12 = round(mean(apsna$`REF (2022)` ),4)
+m13 = round(mean(apsna$`URB (2022)` ),4)
+m14 = round(mean(ss$`SAFE.SANIT (2022)`),4)
+taba = rbind(m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14)
+
+#Criação das medianas
+
+me1 = round(median(apsna$`MIG (2022)`),4)
+me2 = round(median(apsna$`POP (2022)`),4)
+me3 = round(median(apsna$`GDPCAP (2022)`),4)
+me4 = round(median(apsna$`GDPG (2022)` ),4)
+me5 = round(median(apsna$`UNEMP (2022)` ),4)
+me6 = round(median(apsna$`POPGROWTH (2022)` ),4)
+me7 = round(median(apsna$`EXPEC (2021)` ),4)
+me8= round(median(apsna$`ELECT (2021)` ),4)
+me9= round(median(apsna$`MORT (2021)` ),4)
+me11 = round(median(apsna$`MIG.PER (2015)` ),4)
+me12 = round(median(apsna$`REF (2022)` ),4)
+me13 = round(median(apsna$`URB (2022)` ),4)
+me14 = round(median(ss$`SAFE.SANIT (2022)`),4)
+tabb = rbind(me1,me2,me3,me4,me5,me6,me7,me8,me9,me10,me11,me12,me13,me14)
+
+#Criação dos desvios
+
+d1 = sd(apsna$`MIG (2022)`)
+d2 = sd(apsna$`POP (2022)`)
+d3 = sd(apsna$`GDPCAP (2022)`)
+d4 = sd(apsna$`GDPG (2022)` )
+d5 = sd(apsna$`UNEMP (2022)` )
+d6 = sd(apsna$`POPGROWTH (2022)` )
+d7 = sd(apsna$`EXPEC (2021)` )
+d8= sd(apsna$`ELECT (2021)` )
+d9= sd(apsna$`MORT (2021)` )
+d11 = sd(apsna$`MIG.PER (2015)` )
+d12 = sd(apsna$`REF (2022)` )
+d13 = sd(apsna$`URB (2022)` )
+d14 = sd(ss$`SAFE.SANIT (2022)`)
+tabc = rbind(d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14)
+
+#percentis
+
+per = c(0.25,0.75)
+q1 = round(quantile(apsna$`MIG (2022)`, per),2)
+q2 = round(quantile(apsna$`POP (2022)`, per),2)
+q3 = round(quantile(apsna$`GDPCAP (2022)`, per),2)
+q4 = round(quantile(apsna$`GDPG (2022)` , per),2)
+q5 = round(quantile(apsna$`UNEMP (2022)` , per),2)
+q6 = round(quantile(apsna$`POPGROWTH (2022)` , per),2)
+q7 = round(quantile(apsna$`EXPEC (2021)` , per),2)
+q8 = round(quantile(apsna$`ELECT (2021)` , per),2)
+q9 = round(quantile(apsna$`MORT (2021)` , per),2)
+q11 = round(quantile(apsna$`MIG.PER (2015)` , per),2)
+q12 = round(quantile(apsna$`REF (2022)` , per),2)
+q13 = round(quantile(apsna$`URB (2022)` , per),2)
+q14 = round(quantile(ss$`SAFE.SANIT (2022)`, per),2)
+tabd = rbind(q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14)
+
+#criação de tabela
+
+tabtot = cbind(taba,tabb,tabc,tabd)
+colnames(tabtot) = c("Média", "Mediana", "Desvio", "Quartil 25%", "Quartil 75%")
+rownames(tabtot) = c("Net Migration", "Population", "GDP Cap.","GDP Growth", "Unemployment", "Pop. Growth", "Life Expec.", "Electricity","Mortality","HIV","Migration per cap.", "Refugee pop.", "Urban pop.", "Sanitation Serv.")
+View(tabtot)
+
+#Criação da variável AIDS
+
+m10 = round(mean(aids$`HIV (2021)`),4)
+me10 = round(median(aids$`HIV (2021)`),4)
+d10 = sd(aids$`HIV (2021)`)
+q10 = round(quantile(aids$`HIV (2021)`,per),2)
+
+#Criação de gráficos
+
+par(mfrow=c(2,2))
+par(mar = rep(2, 4))
+plot(apsna$`MIG.PER (2015)`, apsna$`GDPCAP (2022)`, col = "blue", ylab = "Imig. Per.", 
+     xlab = "PIB per capt.", pch = 16)
+plot(apsna$`MIG.PER (2015)`,apsna$`EXPEC (2021)`, col = "red", ylab = "Imig. Per",
+     xlab = "Expectativa de vida", pch = 16)
+plot(apsna$`MIG.PER (2015)`, apsna$`ELECT (2021)`, col = "green", pch=16)
+plot(apsna$`MIG.PER (2015)`, apsna$`MORT (2021)`, col = "black", pch=16)
+par(mfrow=c(1,2))
+par(mar = rep(2, 4))
+plot ( apsna$`MIG.PER (2015)`, apsna$`URB (2022)`, col = "darkorchid", pch = 16)
+plot (ss$`MIG.PER (2015)`, ss$`SAFE.SANIT (2022)`, col = "coral", pch=16)
